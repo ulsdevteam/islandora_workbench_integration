@@ -88,7 +88,7 @@ islandora_workbench_integration.node_actions_field_storage_config:
             type: string
 
 islandora_workbench_integration.media_actions_entity_type:
-  path: '/islandora_workbench_integration/media_actions/entity_type/{entity_type}'
+  path: '/islandora_workbench_integration/media_actions/entity_type/{media_type}'
   defaults:
     _controller: '\Drupal\islandora_workbench_integration\Controller\MediaActionsController::getMediaType'
   methods:
@@ -98,5 +98,5 @@ islandora_workbench_integration.media_actions_entity_type:
   options:
     _auth: ['basic_auth','jwt_auth','cookie']
     parameters:
-      entity_type:
+      media_type:
         type: string
