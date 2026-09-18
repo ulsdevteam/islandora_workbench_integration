@@ -6,6 +6,7 @@ Drupal 10/11 Module required by [Islandora Workbench](https://github.com/mjordan
 
 * Term from URI
 * Term from term name
+* Member of node
 
 Also enables the following REST resources:
 
