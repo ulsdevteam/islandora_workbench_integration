@@ -5,6 +5,7 @@ dependencies:
     - field.storage.node.field_weight
     - field.storage.node.field_member_of
   module:
+    - islandora_workbench_integration
     - node
     - rest
     - serialization
@@ -24,9 +25,11 @@ display:
     position: 0
     display_options:
       access:
-        type: perm
+        type: multiple_permissions
         options:
-          perm: 'administer nodes'
+          permissions:
+            'use islandora workbench': 'use islandora workbench'
+            'administer nodes': 'administer nodes'
       cache:
         type: tag
         options: {  }
@@ -523,4 +526,3 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_weight'
-
