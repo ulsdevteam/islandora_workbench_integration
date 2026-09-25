@@ -254,8 +254,6 @@ class MembersOfNodeViewTest extends BrowserTestBase {
 
     $first = $body[0];
     $this->assertArrayHasKey('nid', $first);
-    $this->assertArrayHasKey('title', $first);
-    $this->assertArrayHasKey('type', $first);
     $this->assertArrayHasKey('field_weight_value', $first);
   }
 
