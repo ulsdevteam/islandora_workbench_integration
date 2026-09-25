@@ -1,0 +1,115 @@
+<?php
+
+/**
+ * @file
+ * Update hooks for the Islandora Workbench Integration module.
+ */
+
+use Drupal\Core\Config\FileStorage;
+
+/**
+ * Imports the new Views for sites that already have this module installed.
+ *
+ * Drupal only auto-imports config/optional entries when a module is first
+ * installed (or when another module's install/enable makes a previously
+ * unmet dependency available) — not on a routine code deploy. Sites that
+ * installed this module before would otherwise need to run the documented
+ * manual step:
+ *
+ *   drush cim -y --partial --source=modules/contrib/islandora_workbench_integration/config/optional
+ *   drush cr
+ *
+ * This update performs the equivalent of that import automatically via
+ * drush updb / update.php, for the Views this module depends on.
+ *
+ * If a site administrator already ran the manual import (or otherwise
+ * has a "members_of_node" View), this update leaves it untouched rather
+ * than overwriting any local customization.
+ */
+ 
+function islandora_workbench_integration_update_10001() {
+  $view_id = 'term_from_uri';
+  $view_storage = \Drupal::entityTypeManager()->getStorage('view');
+
+  if ($view_storage->load($view_id)) {
+    return t('The "@id" View already exists and was left unchanged.', [
+      '@id' => $view_id,
+    ]);
+  }
+
+  $config_path = \Drupal::service('extension.list.module')
+    ->getPath('islandora_workbench_integration') . '/config/optional';
+  $file_storage = new FileStorage($config_path);
+  $data = $file_storage->read('views.view.' . $view_id);
+
+  if ($data === FALSE) {
+    throw new \RuntimeException(sprintf(
+      'Could not read views.view.%s.yml from %s. The "Term from URI" View was not created; run the manual "drush cim --partial" step documented in the README instead.',
+      $view_id,
+      $config_path
+    ));
+  }
+
+  $view_storage->createFromStorageRecord($data)->save();
+
+  return t('Created the "Term from URI" View, exposing a REST endpoint at /term_from_uri, /term_from_authority_link.');
+}
+
+
+function islandora_workbench_integration_update_10002() {
+  $view_id = 'term_from_term_name';
+  $view_storage = \Drupal::entityTypeManager()->getStorage('view');
+
+  if ($view_storage->load($view_id)) {
+    return t('The "@id" View already exists and was left unchanged.', [
+      '@id' => $view_id,
+    ]);
+  }
+
+  $config_path = \Drupal::service('extension.list.module')
+    ->getPath('islandora_workbench_integration') . '/config/optional';
+  $file_storage = new FileStorage($config_path);
+  $data = $file_storage->read('views.view.' . $view_id);
+
+  if ($data === FALSE) {
+    throw new \RuntimeException(sprintf(
+      'Could not read views.view.%s.yml from %s. The "Term from term name" View was not created; run the manual "drush cim --partial" step documented in the README instead.',
+      $view_id,
+      $config_path
+    ));
+  }
+
+  $view_storage->createFromStorageRecord($data)->save();
+
+  return t('Created the "Term from term name" View, exposing a REST endpoint at /term_from_term_name.');
+}
+
+
+function islandora_workbench_integration_update_10003() {
+  $view_id = 'members_of_node';
+  $view_storage = \Drupal::entityTypeManager()->getStorage('view');
+
+  if ($view_storage->load($view_id)) {
+    return t('The "@id" View already exists and was left unchanged.', [
+      '@id' => $view_id,
+    ]);
+  }
+
+  $config_path = \Drupal::service('extension.list.module')
+    ->getPath('islandora_workbench_integration') . '/config/optional';
+  $file_storage = new FileStorage($config_path);
+  $data = $file_storage->read('views.view.' . $view_id);
+
+  if ($data === FALSE) {
+    throw new \RuntimeException(sprintf(
+      'Could not read views.view.%s.yml from %s. The "Members of node" View was not created; run the manual "drush cim --partial" step documented in the README instead.',
+      $view_id,
+      $config_path
+    ));
+  }
+
+  $view_storage->createFromStorageRecord($data)->save();
+
+  return t('Created the "Members of node" View, exposing a REST endpoint at /islandora_workbench_integration/members-of-node/{nid}.');
+}
+
